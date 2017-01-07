@@ -1,13 +1,14 @@
 package com.example.android.quakereport;
 
 import static com.example.android.quakereport.R.id.date;
+import static com.example.android.quakereport.R.id.mag;
 
 /**
  * Created by gfibertester on 1/6/17.
  */
 
 public class Earthquake {
-    private String mMag;
+    private double mMag;
     private String mCity;
     private Long mDate;
 
@@ -17,7 +18,7 @@ public class Earthquake {
      * @param city
      * @param date
      */
-    public Earthquake(String mag, String city, Long date) {
+    public Earthquake(double mag, String city, Long date) {
         mMag = mag;
         mCity = city;
         mDate = date;
@@ -27,7 +28,7 @@ public class Earthquake {
      *
      * @return
      */
-    public String getMag() {
+    public double getMag() {
         return mMag;
     }
 

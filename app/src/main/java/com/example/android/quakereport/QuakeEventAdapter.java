@@ -9,6 +9,7 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.text.DecimalFormat;
 
 import java.util.ArrayList;
 
@@ -57,6 +58,11 @@ public class QuakeEventAdapter extends ArrayAdapter<Earthquake>{
         }
     }
 
+    private String getMagFormat(double mag) {
+        DecimalFormat magFormat = new DecimalFormat("0.0");
+        return magFormat.format(mag);
+    }
+
 
     /**
      *
@@ -76,8 +82,10 @@ public class QuakeEventAdapter extends ArrayAdapter<Earthquake>{
 
         Earthquake currentQuake = getItem(position);
 
+        double mag = currentQuake.getMag();
+
         TextView magTextView = (TextView) listItemView.findViewById(R.id.mag);
-        magTextView.setText(currentQuake.getMag());
+        magTextView.setText(getMagFormat(mag));
 
         String location = currentQuake.getCity();
         TextView cityOffsetTextView = (TextView) listItemView.findViewById(R.id.city_offset);
