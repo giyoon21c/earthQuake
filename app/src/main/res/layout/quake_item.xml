@@ -13,13 +13,25 @@
         android:layout_weight="1" />
 
     <TextView
-        android:id="@+id/city"
+        android:id="@+id/city_offset"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/city_primary"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />
 
     <TextView
         android:id="@+id/date"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1" />
+
+    <TextView
+        android:id="@+id/time"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1" />

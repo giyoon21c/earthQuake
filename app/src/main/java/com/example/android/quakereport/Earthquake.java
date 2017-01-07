@@ -1,5 +1,7 @@
 package com.example.android.quakereport;
 
+import static com.example.android.quakereport.R.id.date;
+
 /**
  * Created by gfibertester on 1/6/17.
  */
@@ -7,7 +9,7 @@ package com.example.android.quakereport;
 public class Earthquake {
     private String mMag;
     private String mCity;
-    private String mDate;
+    private Long mDate;
 
     /**
      *
@@ -15,7 +17,7 @@ public class Earthquake {
      * @param city
      * @param date
      */
-    public Earthquake(String mag, String city, String date) {
+    public Earthquake(String mag, String city, Long date) {
         mMag = mag;
         mCity = city;
         mDate = date;
@@ -41,7 +43,7 @@ public class Earthquake {
      *
      * @return
      */
-    public String getDate() {
+    public Long getDate() {
         return mDate;
     }
 }
