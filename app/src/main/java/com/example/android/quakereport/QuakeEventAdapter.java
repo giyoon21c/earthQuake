@@ -1,6 +1,7 @@
 package com.example.android.quakereport;
 
 import android.app.Activity;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 
 import static android.R.attr.format;
 import static com.example.android.quakereport.R.id.date;
+import android.graphics.drawable.GradientDrawable;
 
 
 public class QuakeEventAdapter extends ArrayAdapter<Earthquake>{
@@ -63,6 +65,43 @@ public class QuakeEventAdapter extends ArrayAdapter<Earthquake>{
         return magFormat.format(mag);
     }
 
+    private int getMagnitudeColor(double mag) {
+        int magnitudeColor = (int) Math.floor(mag);
+
+        switch((int)mag) {
+            case 0: case 1:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude1);
+                break;
+            case 2:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude2);
+                break;
+            case 3:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude3);
+                break;
+            case 4:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude4);
+                break;
+            case 5:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude5);
+                break;
+            case 6:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude6);
+                break;
+            case 7:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude7);
+                break;
+            case 8:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude8);
+                break;
+            case 9:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude9);
+                break;
+            default:
+                magnitudeColor = ContextCompat.getColor(getContext(), R.color.magnitude10plus);
+                break;
+        }
+        return magnitudeColor;
+    }
 
     /**
      *
@@ -100,6 +139,11 @@ public class QuakeEventAdapter extends ArrayAdapter<Earthquake>{
 
         TextView timeTextView = (TextView) listItemView.findViewById(R.id.time);
         timeTextView.setText(formatTime(dateObject));
+
+        // setting the mag color
+        GradientDrawable magnitudeCircle = (GradientDrawable) magTextView.getBackground();
+        int magnitudeColor = getMagnitudeColor(currentQuake.getMag());
+        magnitudeCircle.setColor(magnitudeColor);
 
         return listItemView;
     }
