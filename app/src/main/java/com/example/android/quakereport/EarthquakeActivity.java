@@ -15,12 +15,21 @@
  */
 package com.example.android.quakereport;
 
+import android.app.Activity;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import static android.media.CamcorderProfile.get;
 
 public class EarthquakeActivity extends AppCompatActivity {
 
@@ -44,7 +53,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         earthquakes.add(new Quake("1.6", "Paris", "Oct 20 2011"));
         */
 
-        ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
+        final ArrayList<Earthquake> earthquakes = QueryUtils.extractEarthquakes();
 
         QuakeEventAdapter quakeAdapter = new QuakeEventAdapter(this, earthquakes);
 
@@ -54,5 +63,22 @@ public class EarthquakeActivity extends AppCompatActivity {
         // Set the adapter on the {@link ListView}
         // so the list can be populated in the user interface
         earthquakeListView.setAdapter(quakeAdapter);
+
+        earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapter,
+                                    View view,
+                                    int position,
+                                    long id) {
+                Toast.makeText(getApplicationContext(), "sent intent " + position,
+                        Toast.LENGTH_SHORT).show();
+                Earthquake quake = earthquakes.get(position);
+                Log.v("Earthquake", "Current quake: " + quake.getURL());
+                
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                i.setData(Uri.parse(quake.getURL()));
+                startActivity(i);
+            }
+        });
     }
 }

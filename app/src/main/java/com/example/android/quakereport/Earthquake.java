@@ -11,6 +11,7 @@ public class Earthquake {
     private double mMag;
     private String mCity;
     private Long mDate;
+    private String mURL;
 
     /**
      *
@@ -18,10 +19,11 @@ public class Earthquake {
      * @param city
      * @param date
      */
-    public Earthquake(double mag, String city, Long date) {
+    public Earthquake(double mag, String city, Long date, String URL) {
         mMag = mag;
         mCity = city;
         mDate = date;
+        mURL = URL;
     }
 
     /**
@@ -46,5 +48,13 @@ public class Earthquake {
      */
     public Long getDate() {
         return mDate;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public String getURL() {
+        return mURL;
     }
 }

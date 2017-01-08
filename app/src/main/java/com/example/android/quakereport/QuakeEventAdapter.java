@@ -140,7 +140,7 @@ public class QuakeEventAdapter extends ArrayAdapter<Earthquake>{
         TextView timeTextView = (TextView) listItemView.findViewById(R.id.time);
         timeTextView.setText(formatTime(dateObject));
 
-        // setting the mag color
+        // setting the mag color - make a note of this section
         GradientDrawable magnitudeCircle = (GradientDrawable) magTextView.getBackground();
         int magnitudeColor = getMagnitudeColor(currentQuake.getMag());
         magnitudeCircle.setColor(magnitudeColor);
