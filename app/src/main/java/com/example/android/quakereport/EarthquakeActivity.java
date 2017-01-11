@@ -28,6 +28,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -38,7 +39,8 @@ import static android.media.CamcorderProfile.get;
 public class EarthquakeActivity extends AppCompatActivity {
 
     public static final String LOG_TAG = EarthquakeActivity.class.getName();
-
+    private static final String USGS_REQUEST_URL =
+            "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +64,7 @@ public class EarthquakeActivity extends AppCompatActivity {
         //final ArrayList<Earthquake> earthquakes;
 
         EarthquakeAsyncTask task = new EarthquakeAsyncTask();
-        task.execute();
+        task.execute(USGS_REQUEST_URL);
 
     }
 
@@ -100,11 +102,11 @@ public class EarthquakeActivity extends AppCompatActivity {
      create a async task which will go to a url and download json files and put them
      in ArrayList<Earthquake>
     */
-    private class EarthquakeAsyncTask extends AsyncTask<URL, Void, List<Earthquake>> {
+    private class EarthquakeAsyncTask extends AsyncTask<String, Void, List<Earthquake>> {
 
         @Override
-        protected List<Earthquake> doInBackground(URL... url) {
-            final List<Earthquake> earthquakes = new ArrayList<Earthquake>();
+        protected List<Earthquake> doInBackground(String... urls) {
+            List<Earthquake> earthquakes = QueryUtils.fetchEarthquakeData(urls[0]);
             return earthquakes;
         }
 
