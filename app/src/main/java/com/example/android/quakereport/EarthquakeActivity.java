@@ -47,24 +47,19 @@ public class EarthquakeActivity extends AppCompatActivity
             "http://earthquake.usgs.gov/fdsnws/event/1/query?format=geojson&eventtype=earthquake&orderby=time&minmag=6&limit=10";
     private static final int EARTHQUAKE_LOADER_ID = 1;
 
+    private QuakeEventAdapter mAdapter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.earthquake_activity);
 
-        getLoaderManager().initLoader(1, null, this);
-    }
-
-    void updateUi(final List<Earthquake> earthquakes) {
-
-        QuakeEventAdapter quakeAdapter = new QuakeEventAdapter(this, (ArrayList)earthquakes);
-
         // Find a reference to the {@link ListView} in the layout
         ListView earthquakeListView = (ListView) findViewById(R.id.list);
 
-        // Set the adapter on the {@link ListView}
-        // so the list can be populated in the user interface
-        earthquakeListView.setAdapter(quakeAdapter);
+        mAdapter = new QuakeEventAdapter(this, new ArrayList<Earthquake>());
+        earthquakeListView.setAdapter(mAdapter);
 
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -75,7 +70,7 @@ public class EarthquakeActivity extends AppCompatActivity
                                     long id) {
                 Toast.makeText(getApplicationContext(), "sent intent " + position,
                         Toast.LENGTH_SHORT).show();
-                Earthquake quake = earthquakes.get(position);
+                Earthquake quake = mAdapter.getItem(position);
                 Log.v("Earthquake", "Current quake: " + quake.getURL());
 
                 Intent i = new Intent(Intent.ACTION_VIEW);
@@ -83,6 +78,8 @@ public class EarthquakeActivity extends AppCompatActivity
                 startActivity(i);
             }
         });
+
+        getLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
     }
 
 
@@ -98,11 +95,15 @@ public class EarthquakeActivity extends AppCompatActivity
         if (earthquakes == null) {
             return;
         }
-        updateUi(earthquakes);
+        mAdapter.clear();
+        if (earthquakes != null && !earthquakes.isEmpty()) {
+            mAdapter.addAll(earthquakes);
+        }
     }
 
     @Override
     public void onLoaderReset(Loader<List<Earthquake>> loader) {
         // TODO: Loader reset, so we can clear out our existing data
+        mAdapter.clear();
     }
 }
