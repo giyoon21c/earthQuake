@@ -29,6 +29,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -48,7 +50,8 @@ public class EarthquakeActivity extends AppCompatActivity
     private static final int EARTHQUAKE_LOADER_ID = 1;
 
     private QuakeEventAdapter mAdapter;
-
+    private TextView mEmptyStateTextView;
+    private ProgressBar mProgressBarView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,6 +63,11 @@ public class EarthquakeActivity extends AppCompatActivity
 
         mAdapter = new QuakeEventAdapter(this, new ArrayList<Earthquake>());
         earthquakeListView.setAdapter(mAdapter);
+
+        mEmptyStateTextView = (TextView) findViewById(R.id.empty_view);
+        earthquakeListView.setEmptyView(mEmptyStateTextView);
+
+        mProgressBarView = (ProgressBar) findViewById(R.id.loading_spinner);
 
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
@@ -92,11 +100,17 @@ public class EarthquakeActivity extends AppCompatActivity
     @Override
     public void onLoadFinished(Loader<List<Earthquake>> loader,List<Earthquake> earthquakes) {
         // TODO: update the UI with results
+
+        mProgressBarView.setVisibility(View.GONE);
+
+        mEmptyStateTextView.setText(R.string.no_earthquakes);
+
         if (earthquakes == null) {
             return;
         }
         mAdapter.clear();
         if (earthquakes != null && !earthquakes.isEmpty()) {
+            // comment out below line to simulate lack of json response from http request
             mAdapter.addAll(earthquakes);
         }
     }

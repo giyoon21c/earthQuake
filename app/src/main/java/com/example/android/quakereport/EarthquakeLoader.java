@@ -26,6 +26,12 @@ public class EarthquakeLoader extends AsyncTaskLoader<List<Earthquake>> {
 
     @Override
     public List<Earthquake> loadInBackground() {
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         // TODO: implement this method
         List<Earthquake> earthquakes = QueryUtils.fetchEarthquakeData(mUrl);
         return earthquakes;
