@@ -18,8 +18,11 @@ package com.example.android.quakereport;
 import android.app.Activity;
 import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -69,6 +72,14 @@ public class EarthquakeActivity extends AppCompatActivity
 
         mProgressBarView = (ProgressBar) findViewById(R.id.loading_spinner);
 
+        // determine if there is an internet connection
+        ConnectivityManager cm =
+                (ConnectivityManager)getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        boolean is_connected = (activeNetwork != null &&
+                                activeNetwork.isConnectedOrConnecting());
+
+
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -87,7 +98,11 @@ public class EarthquakeActivity extends AppCompatActivity
             }
         });
 
-        getLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        if (is_connected) {
+            getLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
+        } else {
+            mEmptyStateTextView.setText(R.string.no_internet);
+        }
     }
 
 
