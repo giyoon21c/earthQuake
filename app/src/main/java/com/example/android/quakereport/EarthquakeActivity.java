@@ -79,7 +79,6 @@ public class EarthquakeActivity extends AppCompatActivity
         boolean is_connected = (activeNetwork != null &&
                                 activeNetwork.isConnectedOrConnecting());
 
-
         earthquakeListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
@@ -99,13 +98,17 @@ public class EarthquakeActivity extends AppCompatActivity
         });
 
         if (is_connected) {
-            getLoaderManager().initLoader(EARTHQUAKE_LOADER_ID, null, this);
+            LoaderManager loaderManager = getLoaderManager();
+            loaderManager.initLoader(EARTHQUAKE_LOADER_ID, null, this);
         } else {
+            // do not display the loading indicator
+            View loadingIndicator = findViewById(R.id.loading_spinner);
+            loadingIndicator.setVisibility(View.GONE);
+            // display no internet string
             mEmptyStateTextView.setText(R.string.no_internet);
         }
     }
-
-
+    
     @Override
     public Loader<List<Earthquake>> onCreateLoader(int i, Bundle bunel) {
         // TODO: create a new loader for the given URL
